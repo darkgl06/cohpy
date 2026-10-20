@@ -19,6 +19,17 @@ pip install cohpy
 ````
 Visit [Pypi](https://pypi.org/project/cohpy/) for more info!
 
+## Development
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run:
+
+```shell
+uv sync --locked
+uv run python -m flake8 --config=.flake8
+uv run python -m unittest
+uv build
+```
+
 ## Current API Coverage
 - List all leaderboards ✔️
 - Show players from a leaderboard ️✔️
