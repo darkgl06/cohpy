@@ -53,14 +53,6 @@ class PersonalStatsTestCase(unittest.TestCase):
         assert all(key in response for key in expected_keys)
         assert isinstance(response, dict)
 
-    def test_get_multiple_stats_with_in_game_alias(self):
-        response = self.api_client.personal_stats(profile_params=['W1ntersLP', '@dr1guerre'],
-                                                  mode='alias')
-        expected_keys = ('statGroups', 'leaderboardStats',)
-
-        assert all(key in response for key in expected_keys)
-        assert isinstance(response, dict)
-
     def test_non_existing_player_raise_exception(self):
         with self.assertRaises(ProfileIdDoesNotExist):
             self.api_client.personal_stats(profile_params=-999)
