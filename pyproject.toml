@@ -1,6 +1,6 @@
 [project]
 name = "cohpy"
-version = "1.2.0"
+version = "1.2.1"
 description = ""
 authors = [{ name = "Andres Garrido", email = "andreslp0001@gmail.com" }]
 readme = "README.md"
