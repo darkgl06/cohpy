@@ -2,7 +2,7 @@ import abc
 import json
 import re
 from collections.abc import Iterable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import requests
 
@@ -174,6 +174,21 @@ class MatchHistory(PlayersEndpoint):
     Return player match history
     """
     action: str = 'leaderboard/getRecentMatchHistory'
+
+
+@dataclass
+class MatchHistoryByProfileId(Endpoint):
+    """Return recent match history for one Relic profile ID."""
+    action: str = 'leaderboard/getRecentMatchHistoryByProfileId'
+    profile_id: int = None
+    query_params: dict = field(default_factory=dict)
+
+    def get(self, **kwargs) -> dict:
+        self.query_params['profile_id'] = self.profile_id
+        response = requests.get(self.url)
+        if not self.validate_response(response):
+            raise ProfileIdDoesNotExist(self.profile_id)
+        return response.json()
 
 
 @dataclass

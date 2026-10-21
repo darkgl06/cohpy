@@ -4,6 +4,7 @@ from cohpy.endpoint import (
     AllLeaderboards,
     Leaderboard,
     MatchHistory,
+    MatchHistoryByProfileId,
     PersonalStats,
 )
 
@@ -18,6 +19,9 @@ class APIClient:
     _all_leaderboards: AllLeaderboards = field(default_factory=lambda: AllLeaderboards())
     _specific_leaderboard: Leaderboard = field(default_factory=lambda: Leaderboard())
     _match_history: MatchHistory = field(default_factory=lambda: MatchHistory())
+    _match_history_by_profile_id: MatchHistoryByProfileId = field(
+        default_factory=lambda: MatchHistoryByProfileId()
+    )
     _personal_stats: PersonalStats = field(default_factory=lambda: PersonalStats())
 
     def leaderboards(self, *, remove_server_status=True) -> dict:
@@ -76,6 +80,14 @@ class APIClient:
         self._match_history.profile_params = profile_params
         self._match_history.query_mode = mode
         response = self._match_history.get()
+        if remove_server_status:
+            response.pop('result')
+        return response
+
+    def match_history_by_profile_id(self, *, profile_id, remove_server_status=True):
+        """Retrieve recent match history for one Relic profile ID."""
+        self._match_history_by_profile_id.profile_id = profile_id
+        response = self._match_history_by_profile_id.get()
         if remove_server_status:
             response.pop('result')
         return response
